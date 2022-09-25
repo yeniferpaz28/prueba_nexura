@@ -5,8 +5,59 @@
 #divNuevoUsuario{
     margin-left: 77%;
     padding: 0px 164px 12px;
-    padding-left: 191px
+    padding-left: 191px;
+    padding-bottom: 0px;
 }
 #containerCrear{
     padding: 1px 250px 0px 49px;
 }
+#containerActualizar{
+    padding: 1px 98px 0px 49px;
+}
+
+.alert{
+    margin:20px 100px;
+}
+#row1{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+#container{
+    width: 1300px;
+}
+#thTitulo{
+    padding: 5px 0px;
+    text-align: center;
+}
+#thTl{
+    padding: 5px 0px;
+    text-align: center;
+}
+.inputDescargar{
+    border:0;
+    /*background-color: white;*/
+    background: white;
+    color:#2997DA;
+    font-weight: bold;
+}
+.divDescargar{
+    margin: 10px 40px;
+}
+#submit{
+    margin-top: 10px;
+}
+#examinar{
+    margin-bottom: 10px;
+    white-space: pre;
+}
+#row{
+    margin: 20px 10px;
+}
+#labelImportar{
+    font-size: 20px;
+}
+#volver{
+    margin-top: 10px;
+    margin-left: 10px;
+}
+

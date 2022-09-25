@@ -8,50 +8,55 @@ class rolController{
 	public $id_rol;
 
 	// presentar usuario
-	public function PresentarRoles(){
+	public function presentarRoles(){
 		$objetoControlador = new rolModel();
-		$roles = $objetoControlador->PresentarRol();
+		$roles = $objetoControlador->presentarRol();
 
 		return $roles;
 	}
+	
 	// guardar rol
-	public function GuardarRoles($id_rol,$id_empleado){
+	public function guardarRoles($id_rol,$id_empleado){
 		$objetoControlador = new rolModel();
 		$this->id_rol = $id_rol;
 		$this->id_empleado = $id_empleado;
 
-		$roles = $objetoControlador->GuardarRol($this);
+		$roles = $objetoControlador->guardarRol($this);
 
 		return $roles;
 	}
-	public function ActualizarRoles($id_rol,$id_empleado){
+	
+	public function actualizarRoles($id_rol,$id_empleado){
 		$objetoControlador = new rolModel();
 		$this->id_rol = $id_rol;
 		$this->id_empleado = $id_empleado;
 
-		$roles = $objetoControlador->ActualizarRol($this);
+		$roles = $objetoControlador->actualizarRol($this);
 
 		return $roles;
 	}
+	
 	// eliminar rol
-	public function EliminarRoles($id_empleado){
+	public function eliminarRoles($id_empleado){
 		$objetoControlador = new rolModel();
 		
-		$roles = $objetoControlador->EliminarRol($id_empleado);
+		$roles = $objetoControlador->eliminarRol($id_empleado);
 
 		return $roles;
 
 	}
-	public function PresentarRolesActualizar($id_empleado,$id_rol){
+
+	public function presentarRolesActualizar($id_empleado,$id_rol){
 		$objetoControlador = new rolModel();
 
-		$roles = $objetoControlador->PresentarRolActualizar($id_empleado,$id_rol);
+		$roles = $objetoControlador->presentarRolActualizar($id_empleado,$id_rol);
 
 		return $roles;
 	}
-	public function PresentarDetallesRoles($id){
+
+	public function presentarDetallesRoles($id){
 		$objetoControlador = new rolModel();
-		$roles = $objetoControlador->PresentarDetallesRol($id);
+		$roles = $objetoControlador->presentarDetallesRol($id);
 
 		return $roles;
 	}

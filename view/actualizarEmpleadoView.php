@@ -1,8 +1,8 @@
 <?php
 session_start();
-require_once("../modelo/ModeloEmpleado.php");
-require_once("../modelo/ModeloArea.php");
-require_once("../modelo/ModeloRol.php");
+require_once("../Controller/empleadoController.php");
+require_once("../Controller/areaController.php");
+require_once("../Controller/rolController.php");
 
 // validar valor del boletin
 $vBoletin = 0;
@@ -13,19 +13,18 @@ if(isset($_POST['boletin'])){
 		$vBoletin = 0;
 	}
 }
-$objetoEmpleado = new ModeloEmpleado();
-$objetoRol = new ModeloRol();
+$objetoEmpleado = new empleadoController();
+$objetoRol = new rolController();
 // verificar si exite id
 if(isset($_GET['id'])){
 	$id = intval($_GET['id']);
-	$maxId = $objetoEmpleado->MaximoId();
-	$mId = $maxId->id_empleado;
-	if(!is_numeric($_GET['id']) || $_GET['id']<=0 || $mId < $_GET['id']){
 
-		header("location: ListarEmpleado.php");
+	$validateId = $objetoEmpleado->validateId($id);
+	if(!is_numeric($_GET['id']) || !$validateId){
+		header("location: ListarEmpleadoView.php");
 	}
 }else{
-  header("location: ListarEmpleado.php");
+  header("location: ListarEmpleadoView.php");
 }
 // actualizar empleado
 if (isset($_POST['btnActualizar'])) {
@@ -41,8 +40,8 @@ if (isset($_POST['btnActualizar'])) {
       $email = filter_var($email, FILTER_SANITIZE_EMAIL);
       if(trim($nombre)==''){
         $_SESSION['message_error'][] = 'Debe agregar un nombre';
-      }else if (!preg_match ("/^[a-z A-Z]+$/", $nombre)) {
-      $_SESSION['message_error'][] = 'nombre no valida';
+      }else if (!preg_match ("/^[a-z A-ZÁÉÍÓÚáéíóú]+$/", $nombre)) {
+      $_SESSION['message_error'][] = 'nombre no válido';
     }
     // Luego validamos el email
       if(trim($email)==''){
@@ -63,25 +62,18 @@ if (isset($_POST['btnActualizar'])) {
       if(trim($descripcion)==''){
         $_SESSION['message_error'][] = 'Debe agregar una descripción';
       }else
-      if (!preg_match ("/^[a-z0-9A-Z,. ]+$/", $descripcion)) {
+      if (!preg_match ("/^[a-z0-9A-ZÁÉÍÓÚáéíóú,. ]+$/", $descripcion)) {
       $_SESSION['message_error'][] = 'Descripción no valida';
       }
       if (!isset($_POST['id_rol']) && empty($_POST['id_rol_2'])) {
          $_SESSION['message_error'][] = 'Debe seleccionar al menos un rol';
       }
-      // else if (isset($_POST['id_rol_2'])){
-      //   foreach ($_POST['id_rol_2'] as $id_rol) {
-      //     if (!preg_match ("/^[0-9]+$/", $id_rol)) {
-      //       $_SESSION['message_error'][] = 'Rol no válido';
-      //     }
-      //   }
-      // }
       else if(!isset($_SESSION['message_error'])){
 
-		   $empleado = $objetoEmpleado->ActualizarEmpleados($id,$nombre,$email,$sexo,$area_id,$boletin,$descripcion);
+		   $empleado = $objetoEmpleado->actualizarEmpleados($id,$nombre,$email,$sexo,$area_id,$boletin,$descripcion);
       if (!empty($_POST['id_rol_2'])){
         foreach ($_POST['id_rol_2'] as $seleccion) {
-          $rol = $objetoRol->GuardarRoles($seleccion,$id);
+          $rol = $objetoRol->guardarRoles($seleccion,$id);
           }
         }
         if(!empty($_POST['id_rol_2'])){
@@ -118,7 +110,7 @@ if (isset($_POST['btnActualizar'])) {
     }
   }
 }
-$presentarEmpleados = $objetoEmpleado->PresentarEmpleadosActualizar($id);
+$presentarEmpleados = $objetoEmpleado->presentarEmpleadosActualizar($id);
 // mensajes cuando no se selecciona
       if(isset($_SESSION['message_error'])){
         foreach ($_SESSION['message_error'] as $row) {
@@ -156,7 +148,7 @@ $presentarEmpleados = $objetoEmpleado->PresentarEmpleadosActualizar($id);
 </head>
 <body>
 <form method="post">
-	<div class="container-fluid">
+	<div class="container-fluid" id="containerActualizar">
 	<div class="form-row" id="row1">
 		<div class="col-sm-4">
 			<h1>Actualizar empleados</h1>
@@ -198,10 +190,9 @@ $presentarEmpleados = $objetoEmpleado->PresentarEmpleadosActualizar($id);
     <label for="area" class="col-sm-2 col-form-label">Área</label>
     <div class="col-sm-10">
     	<select class="form-control" id="area_id" name="area_id">
-      <!-- <option value="">:..</option> -->
       <?php
-            $objetoArea = new ModeloArea();
-          $listaAreas = $objetoArea->ListarAreas();
+            $objetoArea = new areaController();
+          $listaAreas = $objetoArea->listarAreas();
           while($areas = mysqli_fetch_array($listaAreas)){
           	$seleccionar=($presentarEmpleados->area_id == $areas[id])? "selected" : "";
             echo '<option '.$seleccionar.' value = "'.$areas[id].'">'.$areas[nombre].'</option>\n';
@@ -230,7 +221,7 @@ $presentarEmpleados = $objetoEmpleado->PresentarEmpleadosActualizar($id);
   <!-- rol -->
    <?php
     $i = 0;
-    $listaRoles = $objetoRol->PresentarRoles();
+    $listaRoles = $objetoRol->presentarRoles();
     while ($roles = mysqli_fetch_object($listaRoles)) {
       $i++;
       $nombre_rol = $roles->nombre_rol;
@@ -244,9 +235,9 @@ $presentarEmpleados = $objetoEmpleado->PresentarEmpleadosActualizar($id);
         <div class="col-sm-10 offset-sm-2">
           <?php } ?>
         <div class="form-check">
-          <?php $presentarRoles = $objetoRol->PresentarRolesActualizar($id,$id_rol);
+          <?php $presentarRoles = $objetoRol->presentarRolesActualizar($id,$id_rol);
           if($filas = mysqli_fetch_object($presentarRoles)){   ?>
-          <input class="form-check-input" type="checkbox" id="<?php echo 'id_rol_'.$i;?>" name="id_rol[]" value="<?php echo $id_rol;?>" checked onclick="funciones(this);">
+          <input class="form-check-input" type="checkbox" id="<?php echo 'id_rol_'.$i;?>" name="id_rol[]" value="<?php echo $id_rol;?>" checked onclick="roles(this);">
           <label class="form-check-label" for="<?php echo 'id_rol_'.$i;?>">
         <?php }else{ ?>
           <input class="form-check-input" type="checkbox" id="<?php echo 'id_rol_'.$i;?>" name="id_rol_2[]" value="<?php echo $id_rol;?>" <?php if(isset($_POST['id_rol_2'])){ if(in_array($id_rol, $_POST['id_rol_2'])) {echo ' checked="checked"';}} ?>>
@@ -263,8 +254,8 @@ $presentarEmpleados = $objetoEmpleado->PresentarEmpleadosActualizar($id);
     <div class="form-group row">
       <div class="col-sm-10">
 
-        <button type="submit" class="btn btn-primary" name="btnActualizar" id="btnActualizar" onclick="funciones(this)" value="btn">Actualizar</button>
-        <a href="ListarEmpleado.php" class="btn btn-primary">Volver</a>
+        <button type="submit" class="btn btn-primary" name="btnActualizar" id="btnActualizar" onclick="roles(this)" value="btn">Actualizar</button>
+        <a href="ListarEmpleadoView.php" class="btn btn-primary">Volver</a>
       </div>
     </div>
   </div>
@@ -274,6 +265,6 @@ $presentarEmpleados = $objetoEmpleado->PresentarEmpleadosActualizar($id);
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script type="text/javascript" src="../validar/validacion.js"></script>
+    <script type="text/javascript" src="../js/empleado.js"></script>
   </body>
 </html>

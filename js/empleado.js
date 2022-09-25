@@ -1,5 +1,37 @@
 // datos obtenidos de rol
 var arrayCheck = new Array;
+function roles(elemento){
+
+    var elemento = ($(elemento).attr("value"));
+    var id_empleado = $('#id_empleado').val();
+      
+    if(elemento.length>0){
+      var checkEnOn = elemento;
+      // buscar posicion del elemento que se va agregar
+      var indice = arrayCheck.indexOf(checkEnOn);
+      console.log("El elemento buscado está en el índice ", indice);
+      if(indice >= 0){
+        console.log("no se puede agregar");
+        // si existe el indice eliminarlo del array
+        arrayCheck.splice(indice,1);
+      }else{
+        arrayCheck.push(checkEnOn);
+      }
+      
+      for(var i=0; i<checkEnOn.length;i++){
+           console.log(checkEnOn[i]);
+      }
+      console.log(arrayCheck);
+    }     
+     // boton actualizar
+    if(elemento == 'btn'){
+      var elemento = elemento;
+      // enviar datos a la funcion enviar
+      enviar(arrayCheck,id_empleado);
+    }
+}
+
+
 
 // enviar datos a obtenerRol
 function enviar(arrayCheck,id_empleado){
@@ -7,7 +39,7 @@ function enviar(arrayCheck,id_empleado){
   var valorId = id_empleado;
   
     $.ajax({
-      url:   '../vista/ObtenerRol.php', //archivo que recibe la llamada
+      url:   '../view/ObtenerRol.php', //archivo que recibe la llamada
       type:  'post', //método de envio
       async: true,
       data:  {arrayCheck:valor,valorId:valorId}, //datos a enviar en json (para mejor lectura)
@@ -21,7 +53,6 @@ function enviar(arrayCheck,id_empleado){
 }
 
 $('#btnGuardar').click(function(){
-    document.getElementById('mensajeError').style.display='none';  
     let errores = [];
     let i = 0;
     if ($('#nombre').val().trim() === '') {
@@ -65,11 +96,25 @@ $('#btnGuardar').click(function(){
     }
     if (i > 0) {
         document.getElementById('mensajeError').style.display='block';
+
+        $('#mensajeError').addClass('show');
+        $('#mensajeError').removeClass('hide');
        let valores = [];
         for (var j = 0; j < errores.length; j++) {
             valores += '<li>'+errores[j]+'</li>';
         }
         $('#mensajes').html(valores);
         return false;
+    }else{
+        console.log('hola');
+    document.getElementById('mensajeError').style.display='none';  
+    $('#mensajeError').addClass('hide');
+    $('#mensajeError').removeClass('show');
     }
+});
+
+$('#cerrarMensajeError').click(function(){
+    document.getElementById('mensajeError').style.display='none';  
+    $('#mensajeError').addClass('hide');
+    $('#mensajeError').removeClass('show');
 });

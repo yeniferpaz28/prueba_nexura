@@ -3,7 +3,7 @@ require_once("../conection.php");
 
 class rolModel{
 	// presentar roles
-	public function PresentarRol(){
+	public function presentarRol(){
 		$objetoConexion = new conection();
 		$objetoConexion->conectarDB();
 
@@ -12,8 +12,9 @@ class rolModel{
 		$resultado = mysqli_query($objetoConexion->con,$sql);
 		return $resultado;
 	}
+
 	// guardar empleado
-	public function GuardarRol($rol){
+	public function guardarRol($rol){
 		$objetoConexion = new conection();
 		$objetoConexion->conectarDB();
 
@@ -28,7 +29,7 @@ class rolModel{
 	// actualizarempleado
 	// presentarempleado actualizar
 	// eliminarempleado
-	public function EliminarRol($id_empleado){
+	public function eliminarRol($id_empleado){
 		$objetoConexion = new conection();
 		$objetoConexion->conectarDB();
 
@@ -37,7 +38,8 @@ class rolModel{
 
 		return $resultado;
 	}
-	public function PresentarRolActualizar($id_empleado,$id_rol){
+
+	public function presentarRolActualizar($id_empleado,$id_rol){
 		$objetoConexion = new conection();
 		$objetoConexion->conectarDB();
 
@@ -50,7 +52,7 @@ class rolModel{
 		return $roles;
 
 	}
-	public function ActualizarRol($roles){
+	public function actualizarRol($roles){
 		$objetoConexion = new conection();
 		$objetoConexion->conectarDB();
 
@@ -61,7 +63,7 @@ class rolModel{
 		// $sql = "UPDATE empleado_rol SET empleado_id ='$roles->id_empleado', rol_id = '$roles->id_rol' WHERE rol_id = '$roles->id_empleado'";
 
 	}
-	public function PresentarDetallesRol($id){
+	public function presentarDetallesRol($id){
 		$objetoConexion = new conection();
 		$objetoConexion->conectarDB();
 

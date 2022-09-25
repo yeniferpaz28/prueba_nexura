@@ -5,19 +5,21 @@ require_once("../conection.php");
 class empleadoModel extends conection{
 
 	// guardar
-	public function GuardarEmpleado($empleado){
+	public function guardarEmpleado($empleado){
 		$objetoConexion = new conection();
 		$objetoConexion->conectarDB();
 
-		$sql = "INSERT INTO empleado(nombre,email,sexo,area_id,boletin,descripcion) VALUES('$empleado->nombre','$empleado->email','$empleado->sexo','$empleado->area_id','$empleado->boletin','$empleado->descripcion')";
+		$sql = "INSERT INTO empleado(nombre,email,sexo,area_id,boletin,descripcion) 
+		VALUES('$empleado->nombre','$empleado->email','$empleado->sexo','$empleado->area_id','$empleado->boletin','$empleado->descripcion')";
 
 		$resultado = mysqli_query($objetoConexion->con,$sql);
 		$ultimoId = mysqli_insert_id($objetoConexion->con);
 		// return $resultado;
 		return $ultimoId;
 	}
+
 	//presentarEmpleados
-	public function ListarEmpleado(){
+	public function listarEmpleado(){
 		$objetoConexion = new conection();
 		$objetoConexion->conectarDB();
 
@@ -32,17 +34,13 @@ class empleadoModel extends conection{
 		$resultado = mysqli_query($objetoConexion->con,$sql);
 		return $resultado;
 	}
+
 	// presentar empleado actualizar
-	public function PresentarEmpleadoActualizar($id){
+	public function presentarEmpleadosActualizar($id){
 		$objetoConexion = new conection();
 		$objetoConexion->conectarDB();
 
 		$sql = "SELECT * FROM empleado WHERE id = $id";
-
-		// $sql = "SELECT empleados.id,empleados.nombre,empleados.email,empleados.sexo,empleados.area_id,empleados.boletin,empleados.descripcion,empleado_rol.empleado_id,empleado_rol.rol_id
-		// 		FROM empleados 
-  //               INNER JOIN empleado_rol
-		// 		WHERE empleados.id = empleado_rol.empleado_id && empleados.id = $id ";
 		$resultado = mysqli_query($objetoConexion->con,$sql);
 
 		$resultadoObjeto = mysqli_fetch_object($resultado);
@@ -51,8 +49,9 @@ class empleadoModel extends conection{
 		// return $resultado;
 
 	}
+
 	// actualizar empleado
-	public function ActualizarEmpleado($empleado){
+	public function actualizarEmpleado($empleado){
 		$objetoConexion = new  conection();
 		$objetoConexion->conectarDB();
 
@@ -68,8 +67,9 @@ class empleadoModel extends conection{
 		return $resultado;
 
 	}
+
 	// eliminar empleado
-	public function EliminarEmpleado($id){
+	public function eliminarEmpleado($id){
 		$objetoConexion = new conection();
 		$objetoConexion->conectarDB();
 
@@ -78,18 +78,20 @@ class empleadoModel extends conection{
 
 		return $resultado;
 	}
-	// buscar maximo id
-	public function MaximoId(){
+
+	// Validar Id
+	public function validateId($id){
 		$objetoConexion = new conection();
 		$objetoConexion->conectarDB();
 
-		$sql= "SELECT id AS id_empleado FROM empleado WHERE id=( SELECT max(id) FROM empleados )";
+		$sql= "SELECT id AS id_empleado FROM empleado WHERE id= $id";
 		$resultado =mysqli_query($objetoConexion->con,$sql);
 		$resultadoMaximo = mysqli_fetch_object($resultado);
 
 		return $resultadoMaximo;
 	}
-	public function PresentarDetalles($id){
+
+	public function presentarDetalles($id){
 		$objetoConexion = new conection();
 		$objetoConexion->conectarDB();
 

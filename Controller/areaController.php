@@ -6,13 +6,10 @@ class areaController{
 	public $id;
 	public $nombre;
 	// presentar area
-	public function ListarAreas(){
+	public function listarAreas(){
 		$nuevaArea = new areaModel();
-		$areas = $nuevaArea->ListarArea();
-
+		$areas = $nuevaArea->listarArea();
 		return $areas;
-
-
 	}
 }
 

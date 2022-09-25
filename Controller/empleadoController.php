@@ -1,5 +1,5 @@
 <?php
-include_once("../model/empleadoModel.php");
+require_once("../model/empleadoModel.php");
 
 class empleadoController{
 	// propiedades
@@ -13,7 +13,7 @@ class empleadoController{
 
 	// guardar empleado
 
-	public function GuardarEmpleados($_nombre,$_email,$_sexo,$Area_id,$_boletin,$_descripcion){
+	public function guardarEmpleado($_nombre,$_email,$_sexo,$Area_id,$_boletin,$_descripcion){
 		$objetoEmpleado = new empleadoModel();
 		$this->nombre = $_nombre;
 		$this->email = $_email;
@@ -22,27 +22,27 @@ class empleadoController{
 		$this->boletin = $_boletin;
 		$this->descripcion = $_descripcion;
 
-		$empleados = $objetoEmpleado->GuardarEmpleado($this);
+		$empleados = $objetoEmpleado->guardarEmpleado($this);
 
 		return $empleados;
 
 	}
 	// presntar empleado
-	public function ListarEmpleados(){
+	public function listarEmpleado(){
 		$objetoEmpleado = new empleadoModel();
-		$empleado = $objetoEmpleado->ListarEmpleado();
+		$empleado = $objetoEmpleado->listarEmpleado();
 
 		return $empleado;
 	}
 	// presentar empleado actualizar
-	public function PresentarEmpleadosActualizar($id){
+	public function presentarEmpleadosActualizar($id){
 		$objetoEmpleado = new empleadoModel();
-		$empleado = $objetoEmpleado->PresentarEmpleadoActualizar($id);
+		$empleado = $objetoEmpleado->presentarEmpleadosActualizar($id);
 
 		return $empleado;
 	}
 	// actualizar empleado
-	public function ActualizarEmpleados($_id,$_nombre,$_email,$_sexo,$_area_id,$_boletin,$_descripcion){
+	public function actualizarEmpleados($_id,$_nombre,$_email,$_sexo,$_area_id,$_boletin,$_descripcion){
 		$objetoEmpleado = new empleadoModel();
 
 		$this->id = $_id;
@@ -53,34 +53,29 @@ class empleadoController{
 		$this->boletin = $_boletin;
 		$this->descripcion = $_descripcion;
 
-		$empleado = $objetoEmpleado->ActualizarEmpleado($this);
+		$empleado = $objetoEmpleado->actualizarEmpleado($this);
 
 		return $empleado;
 
 	}
 	// eliminar empleado
-	public function EliminarEmpleados($id){
+	public function eliminarEmpleados($id){
 		$objetoEmpleado = new empleadoModel();
 
-		$empleado = $objetoEmpleado->EliminarEmpleado($id);
+		$empleado = $objetoEmpleado->eliminarEmpleado($id);
 
 		return $empleado;
 	}
-	public function MaximoId(){
+	/**
+	 * 
+	 * */
+	public function validateId($id){
 		$objetoEmpleado = new empleadoModel();
 
-		$empleado = $objetoEmpleado->MaximoId();
+		$empleado = $objetoEmpleado->validateId($id);
 
 		return $empleado;
 	}
-	public function PresentarDetalles($id){
-		$objetoEmpleado = new empleadoModel();
-		$empleado = $objetoEmpleado->PresentarDetalles($id);
-
-		return $empleado;
-
-
-	}
-
 }
+
 ?>
