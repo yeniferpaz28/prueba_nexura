@@ -21,10 +21,10 @@ if(isset($_GET['id'])){
 
 	$validateId = $objetoEmpleado->validateId($id);
 	if(!is_numeric($_GET['id']) || !$validateId){
-		header("location: ListarEmpleadoView.php");
+		header("location: listarEmpleadoView.php");
 	}
 }else{
-  header("location: ListarEmpleadoView.php");
+  header("location: listarEmpleadoView.php");
 }
 // actualizar empleado
 if (isset($_POST['btnActualizar'])) {
@@ -91,7 +91,7 @@ if (isset($_POST['btnActualizar'])) {
           }else{
             $_SESSION['message'] = 'Error al actualizar datos';
             $_SESSION['message_type']='danger';
-            // header("location: ActualizarEmpleado.php");
+            // header("location: actualizarEmpleado.php");
       	}
        if(isset($_SESSION['message'])){
       // despues de la parte del alert, la sesion hace que se traiga el dato de cual era el tipo de color que se queria
@@ -194,8 +194,8 @@ $presentarEmpleados = $objetoEmpleado->presentarEmpleadosActualizar($id);
             $objetoArea = new areaController();
           $listaAreas = $objetoArea->listarAreas();
           while($areas = mysqli_fetch_array($listaAreas)){
-          	$seleccionar=($presentarEmpleados->area_id == $areas[id])? "selected" : "";
-            echo '<option '.$seleccionar.' value = "'.$areas[id].'">'.$areas[nombre].'</option>\n';
+          	$seleccionar=($presentarEmpleados->area_id == $areas['id'])? "selected" : "";
+            echo '<option '.$seleccionar.' value = "'.$areas['id'].'">'.$areas['nombre'].'</option>\n';
           }
       ?>
     </select>
@@ -255,7 +255,7 @@ $presentarEmpleados = $objetoEmpleado->presentarEmpleadosActualizar($id);
       <div class="col-sm-10">
 
         <button type="submit" class="btn btn-primary" name="btnActualizar" id="btnActualizar" onclick="roles(this)" value="btn">Actualizar</button>
-        <a href="ListarEmpleadoView.php" class="btn btn-primary">Volver</a>
+        <a href="listarEmpleadoView.php" class="btn btn-primary">Volver</a>
       </div>
     </div>
   </div>

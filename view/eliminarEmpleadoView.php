@@ -7,7 +7,7 @@ if(isset($_GET['id'])){
 	$id = intval($_GET['id']);
 	$validateId = $objetoEmpleado->validateId($id);
 	if(!is_numeric($_GET['id']) || !$validateId){
-		header("location: ListarEmpleado.php");
+		header("location: listarEmpleado.php");
 	}else if(isset($_GET['btnDelete'])){
 		$empleado = $objetoEmpleado->eliminarEmpleados($id);
 		$objetoRol = new rolController();
@@ -16,12 +16,12 @@ if(isset($_GET['id'])){
 		if($empleado && $rol){
 			$_SESSION['message'] = 'Datos eliminados correctamente';
 			$_SESSION['message_type']='success';
-			header("location: ListarEmpleadoView.php");
+			header("location: listarEmpleadoView.php");
 
 		}else{
 			$_SESSION['message'] = 'Error al eliminar datos';
 			$_SESSION['message_type']='danger';
-			header("location: ListarEmpleadoView.php");
+			header("location: listarEmpleadoView.php");
 		}
 	}
 }
@@ -42,7 +42,7 @@ if(isset($_GET['id'])){
       </div>
       <div class="modal-footer">
         <button type="submit" class="btn btn-primary" name="btnDelete" id="btnDelete">Eliminar</button>
-        <a href="ListarEmpleadoView.php" class="btn btn-default" data-dismiss="modal" id="cancelar">Cancelar</a>
+        <a href="listarEmpleadoView.php" class="btn btn-default" data-dismiss="modal" id="cancelar">Cancelar</a>
       </div>
     </div>
   </div>

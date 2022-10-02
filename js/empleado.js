@@ -9,19 +9,12 @@ function roles(elemento){
       var checkEnOn = elemento;
       // buscar posicion del elemento que se va agregar
       var indice = arrayCheck.indexOf(checkEnOn);
-      console.log("El elemento buscado está en el índice ", indice);
       if(indice >= 0){
-        console.log("no se puede agregar");
         // si existe el indice eliminarlo del array
         arrayCheck.splice(indice,1);
       }else{
         arrayCheck.push(checkEnOn);
       }
-      
-      for(var i=0; i<checkEnOn.length;i++){
-           console.log(checkEnOn[i]);
-      }
-      console.log(arrayCheck);
     }     
      // boton actualizar
     if(elemento == 'btn'){
@@ -30,8 +23,6 @@ function roles(elemento){
       enviar(arrayCheck,id_empleado);
     }
 }
-
-
 
 // enviar datos a obtenerRol
 function enviar(arrayCheck,id_empleado){
@@ -106,7 +97,6 @@ $('#btnGuardar').click(function(){
         $('#mensajes').html(valores);
         return false;
     }else{
-        console.log('hola');
     document.getElementById('mensajeError').style.display='none';  
     $('#mensajeError').addClass('hide');
     $('#mensajeError').removeClass('show');

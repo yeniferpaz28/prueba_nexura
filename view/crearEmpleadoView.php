@@ -14,75 +14,74 @@ if(isset($_POST['boletin'])){
   }
 }
 if (isset($_POST['btnGuardar'])) {
+    if(isset($_POST) && !empty($_POST)){
+      $nombre = ($_POST['nombre']);
+      $email = ($_POST['email']);
 
-  if(isset($_POST) && !empty($_POST)){
-    $nombre = ($_POST['nombre']);
-    $email = ($_POST['email']);
+      $descripcion = ($_POST['descripcion']);
+      $area_id = ($_POST['area_id']);
+      $boletin = $vBoletin;
 
-    $descripcion = ($_POST['descripcion']);
-    $area_id = ($_POST['area_id']);
-    $boletin = $vBoletin;
-
-    $email = filter_var($email, FILTER_SANITIZE_EMAIL);
-    if(trim($nombre)==''){
-      $_SESSION['message_error'][] = 'Debe agregar un nombre';
-    }else if (!preg_match ("/^[a-z A-ZÁÉÍÓÚáéíóú]+$/", $nombre)) {
-      $_SESSION['message_error'][] = 'Nombre no válido';
-    }
-    // Luego validamos el email
-    if(trim($email)==''){
-      $_SESSION['message_error'][] = 'Debe agregar un correo';
-    }else
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL) === true) {
-      $_SESSION['message_error'][] = 'No es una dirección válida de correo';
-    }
-    if(empty(($_POST['sexo']))){
-      $_SESSION['message_error'][] = 'Debe seleccionar un sexo';
-    }
-    if(trim($area_id)==''){
-      $_SESSION['message_error'][] = 'Debe seleccionar una área';
-    }
-    else if (!preg_match ("/^[0-9]+$/", $area_id)) {
-      $_SESSION['message_error'][] = 'Área no válida';
-    }
-    if(trim($descripcion)==''){
-      $_SESSION['message_error'][] = 'Debe agregar una descripción';
-    }else if (!preg_match ("/^[a-z0-9A-ZÁÉÍÓÚáéíóú,. ]+$/", $descripcion)) {
-      $_SESSION['message_error'][] = 'Descripción no válida';
-    }
-    if(!isset($_POST['id_rol'])){
-      $_SESSION['message_error'][] = 'Debe seleccionar al menos un rol';
-    }else if (isset($_POST['id_rol'])){
-      foreach ($_POST['id_rol'] as $id_rol) {
-      if (!preg_match ("/^[0-9]+$/", $id_rol)) {
-      $_SESSION['message_error'][] = 'Rol no válido';
-         }
+      $email = filter_var($email, FILTER_SANITIZE_EMAIL);
+      if(trim($nombre)==''){
+        $_SESSION['message_error'][] = 'Debe agregar un nombre';
+      }else if (!preg_match ("/^[a-z A-ZÁÉÍÓÚáéíóú]+$/", $nombre)) {
+        $_SESSION['message_error'][] = 'Nombre no válido';
       }
-    }
-   if(!isset($_SESSION['message_error'])){
-    $sexo = ($_POST['sexo']);
-    $objetoEmpleado = new empleadoController();
-    $empleado = $objetoEmpleado->guardarEmpleado($nombre,$email,$sexo,$area_id,$boletin,$descripcion);
-
-    $objetoRol = new rolController();
-
-    if (!empty($_POST['id_rol'])){
-      foreach ($_POST['id_rol'] as $seleccion) {
-        $rol = $objetoRol->guardarRoles($seleccion,$empleado);
+      // Luego validamos el email
+      if(trim($email)==''){
+        $_SESSION['message_error'][] = 'Debe agregar un correo';
+      }else
+      if (!filter_var($email, FILTER_VALIDATE_EMAIL) === true) {
+        $_SESSION['message_error'][] = 'No es una dirección válida de correo';
       }
-    }
-    if($empleado && $rol){
-      $_SESSION['message'] = 'Datos guardados correctamente';
-      $_SESSION['message_type']='success';
-      header("location: ListarEmpleadoView.php");
+      if(empty(($_POST['sexo']))){
+        $_SESSION['message_error'][] = 'Debe seleccionar un sexo';
+      }
+      if(trim($area_id)==''){
+        $_SESSION['message_error'][] = 'Debe seleccionar una área';
+      }
+      else if (!preg_match ("/^[0-9]+$/", $area_id)) {
+        $_SESSION['message_error'][] = 'Área no válida';
+      }
+      if(trim($descripcion)==''){
+        $_SESSION['message_error'][] = 'Debe agregar una descripción';
+      }else if (!preg_match ("/^[a-z0-9A-ZÁÉÍÓÚáéíóú,. ]+$/", $descripcion)) {
+        $_SESSION['message_error'][] = 'Descripción no válida';
+      }
+      if(!isset($_POST['id_rol'])){
+        $_SESSION['message_error'][] = 'Debe seleccionar al menos un rol';
+      }else if (isset($_POST['id_rol'])){
+        foreach ($_POST['id_rol'] as $id_rol) {
+        if (!preg_match ("/^[0-9]+$/", $id_rol)) {
+        $_SESSION['message_error'][] = 'Rol no válido';
+           }
+        }
+      }
+     if(!isset($_SESSION['message_error'])){
+      $sexo = ($_POST['sexo']);
+      $objetoEmpleado = new empleadoController();
+      $empleado = $objetoEmpleado->guardarEmpleado($nombre,$email,$sexo,$area_id,$boletin,$descripcion);
 
-    }else{
-      $_SESSION['message'] = 'Error al guardar datos';
-      $_SESSION['message_type']='danger';
-      header("location: ListarEmpleadoView.php");
+      $objetoRol = new rolController();
+
+      if (!empty($_POST['id_rol'])){
+        foreach ($_POST['id_rol'] as $seleccion) {
+          $rol = $objetoRol->guardarRoles($seleccion,$empleado);
+        }
+      }
+      if($empleado && $rol){
+        $_SESSION['message'] = 'Datos guardados correctamente';
+        $_SESSION['message_type']='success';
+        header("location: listarEmpleadoView.php");
+
+      }else{
+        $_SESSION['message'] = 'Error al guardar datos';
+        $_SESSION['message_type']='danger';
+        header("location: listarEmpleadoView.php");
+      }
     }
   }
-}
 }
 if(isset($_SESSION['message_error'])){
   foreach ($_SESSION['message_error'] as $row) {
@@ -148,8 +147,8 @@ if(isset($_SESSION['message_error'])){
         $objetoArea = new areaController();
         $listaAreas = $objetoArea->listarAreas();
         while($areas = mysqli_fetch_array($listaAreas)){
-          $seleccionar=($selecArea == $areas[id])? "selected" : "";
-          echo '<option '.$seleccionar.' value = "'.$areas[id].'">'.$areas[nombre].'</option>\n';
+          $seleccionar=($selecArea == $areas['id'])? "selected" : "";
+          echo '<option '.$seleccionar.' value = "'.$areas['id'].'">'.$areas['nombre'].'</option>\n';
         }
       ?>
     </select>
@@ -203,7 +202,7 @@ if(isset($_SESSION['message_error'])){
   <div class="form-group row">
     <div class="col-sm-10">
       <button type="submit" class="btn btn-primary" name="btnGuardar" id="btnGuardar">Guardar</button>
-      <a href="ListarEmpleadoView.php" class="btn btn-primary">Volver</a>
+      <a href="listarEmpleadoView.php" class="btn btn-primary">Volver</a>
     </div>
   </div>
 </form>

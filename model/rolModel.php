@@ -43,15 +43,14 @@ class rolModel{
 		$objetoConexion = new conection();
 		$objetoConexion->conectarDB();
 
-		// $sql = "SELECT empleado_id, rol_id FROM empleado_rol WHERE empleado_id = $id";
 		$sql = "SELECT empleado_id, rol_id FROM empleado_rol WHERE empleado_id = $id_empleado && rol_id = $id_rol";
-		// $sql = "DELETE FROM empleado_rol WHERE empleado_id = $roles->";
 		
 		$roles = mysqli_query($objetoConexion->con,$sql);
 
 		return $roles;
 
 	}
+
 	public function actualizarRol($roles){
 		$objetoConexion = new conection();
 		$objetoConexion->conectarDB();
@@ -60,9 +59,8 @@ class rolModel{
 
 		$resultados = mysqli_query($objetoConexion->con,$sql);
 		return $resultados;
-		// $sql = "UPDATE empleado_rol SET empleado_id ='$roles->id_empleado', rol_id = '$roles->id_rol' WHERE rol_id = '$roles->id_empleado'";
-
 	}
+
 	public function presentarDetallesRol($id){
 		$objetoConexion = new conection();
 		$objetoConexion->conectarDB();
