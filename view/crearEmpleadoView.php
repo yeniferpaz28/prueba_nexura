@@ -136,7 +136,7 @@ if(isset($_SESSION['message_error'])){
     </div>
   </fieldset>
   <div class="form-group row">
-    <label for="area" class="col-sm-2 col-form-label">Área *</label>
+    <label for="area_id" class="col-sm-2 col-form-label">Área *</label>
     <div class="col-sm-10">
       <select class="form-control" id="area_id" name="area_id">
       <option value="">Seleccione una opción</option>
@@ -155,7 +155,7 @@ if(isset($_SESSION['message_error'])){
     </div>
   </div>
   <div class="form-group row">
-    <label for="descripciones" class="col-sm-2 col-form-label" required>Descripción *</label>
+    <label for="descripcion" class="col-sm-2 col-form-label" required>Descripción *</label>
     <div class="col-sm-10">
       <textarea class="form-control" id="descripcion" rows="3" name="descripcion"><?php if(isset($_POST['descripcion'])) echo $_POST['descripcion'];?></textarea>
     </div>
@@ -208,4 +208,4 @@ if(isset($_SESSION['message_error'])){
 </form>
 <?php
 require_once("../includes/footer.php");
-?>
+?>s

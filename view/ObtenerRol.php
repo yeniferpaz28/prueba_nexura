@@ -16,9 +16,9 @@ include_once("../Controller/rolController.php");
    		}
     }
     if($rol){
-       	echo "datos eliminados";
+       	echo "Datos eliminados";
     }else{
-    echo "error al eliminar";
+    echo "Error al eliminar";
     }     
 ?>
 

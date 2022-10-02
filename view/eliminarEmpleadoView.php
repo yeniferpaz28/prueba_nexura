@@ -38,7 +38,7 @@ if(isset($_GET['id'])){
       <div class="modal-body">
               <input type="hidden" name="id" id="id" value="<?php $id = intval($_GET['id']);
               echo $id;?>">
-        <p>¿Esta seguro de eliminar empleado?</p>
+        <p>¿Esta seguro de eliminar el empleado?</p>
       </div>
       <div class="modal-footer">
         <button type="submit" class="btn btn-primary" name="btnDelete" id="btnDelete">Eliminar</button>
